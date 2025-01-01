@@ -9,7 +9,7 @@ function TaskModal({ onClose, onSave, companies }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const nextDate = new Date(date);
-    nextDate.setDate(nextDate.getDate() + 14); // Example: 2-week periodicity
+    nextDate.setDate(nextDate.getDate() + 14);
     onSave({
       type,
       date,

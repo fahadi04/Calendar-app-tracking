@@ -44,12 +44,12 @@ function UserModule() {
         ? prev.filter((name) => name !== companyName)
         : [...prev, companyName]
     );
-    // console.log(setSelectedCompany);
   };
 
   return (
     <div className="user-module-container">
       <h1>User Module</h1>
+      
       {/* Dashboard */}
       <div className="dashboard">
         <h2>Dashboard</h2>
@@ -118,7 +118,7 @@ function UserModule() {
                       <li key={index}>{company.name}</li>
                     ))
                 ) : (
-                  <li>No data available</li> // In case companies is not an array or is empty
+                  <li>No data available</li> 
                 )}
               </ul>
             </div>
@@ -135,7 +135,7 @@ function UserModule() {
                       <li key={index}>{company.name}</li>
                     ))
                 ) : (
-                  <li>No data available</li> // In case companies is not an array or is empty
+                  <li>No data available</li>
                 )}
               </ul>
             </div>

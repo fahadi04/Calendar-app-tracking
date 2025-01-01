@@ -5,6 +5,7 @@ import "../../src/styles.css";
 function AdminModule() {
   const [companies, setCompanies] = useState([]);
   const [methods, setMethods] = useState([]);
+  
   // Fetch companies from backend
   const fetchCompanies = async () => {
     try {
@@ -57,7 +58,7 @@ function AdminModule() {
         body: JSON.stringify(newCompany),
       });
       const data = await response.json();
-      setCompanies([...companies, data]); // Update the state with the new company
+      setCompanies([...companies, data]); 
     } catch (error) {
       console.error("Error adding company:", error);
     }
@@ -81,7 +82,6 @@ function AdminModule() {
         body: JSON.stringify(newMethod),
       });
       const data = await response.json();
-      // setMethods([...methods, data]); // Update the state with the new method
       fetchMethods();
     } catch (error) {
       console.error("Error adding communication method:", error);
@@ -135,7 +135,7 @@ function AdminModule() {
       const data = await response.json();
       setCompanies(
         companies.map((company) => (company._id === id ? data : company))
-      ); // Update state with the edited company
+      ); 
     } catch (error) {
       console.error("Error editing company:", error);
     }
@@ -163,7 +163,6 @@ function AdminModule() {
         body: JSON.stringify(updatedMethod),
       });
       const data = await response.json();
-      // setMethods(methods.map((method) => (method._id === id ? data : method))); // Update state with the edited method
       fetchMethods();
     } catch (error) {
       console.error("Error editing method:", error);
@@ -176,7 +175,7 @@ function AdminModule() {
       await fetch(`http://localhost:5000/api/companies/${id}`, {
         method: "DELETE",
       });
-      setCompanies(companies.filter((company) => company._id !== id)); // Update the state to remove the company
+      setCompanies(companies.filter((company) => company._id !== id));
     } catch (error) {
       console.error("Error deleting company:", error);
     }
@@ -184,17 +183,24 @@ function AdminModule() {
 
   // Function to delete a method
   const deleteCommunicationMethod = async (id) => {
+    const updatedMethods = methods.filter((method) => method._id !== id);
+    setMethods(updatedMethods);
+
     try {
-      await fetch(`http://localhost:5000/api/methods/${id}`, {
+      const response = await fetch(`http://localhost:5000/api/methods/${id}`, {
         method: "DELETE",
       });
-      // setMethods(methods.filter((method) => method._id !== id)); // Update the state to remove the method
 
-      if (response.ok) {
-        fetchMethods();
+      if (!response.ok) {
+        throw new Error("Failed to delete method");
       }
+
+      await fetchMethods();
     } catch (error) {
       console.error("Error deleting method:", error);
+
+      const originalMethod = methods.find((method) => method._id === id);
+      setMethods((prevMethods) => [...prevMethods, originalMethod]);
     }
   };
 
