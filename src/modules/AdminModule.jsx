@@ -9,7 +9,9 @@ function AdminModule() {
   // Fetch companies from backend
   const fetchCompanies = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/companies");
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/companies`
+      );
       const data = await response.json();
       setCompanies(data);
     } catch (error) {
@@ -20,7 +22,9 @@ function AdminModule() {
   // Fetch methods from backend
   const fetchMethods = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/methods");
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/methods`
+      );
       const data = await response.json();
       const sortedMethods = data.sort((a, b) => a.sequence - b.sequence);
       setMethods(data, sortedMethods);
@@ -50,13 +54,16 @@ function AdminModule() {
     };
 
     try {
-      const response = await fetch("http://localhost:5000/api/companies", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newCompany),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/companies`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newCompany),
+        }
+      );
       const data = await response.json();
       setCompanies([...companies, data]); 
     } catch (error) {
@@ -74,13 +81,16 @@ function AdminModule() {
     };
 
     try {
-      const response = await fetch("http://localhost:5000/api/methods", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newMethod),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/methods`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newMethod),
+        }
+      );
       const data = await response.json();
       fetchMethods();
     } catch (error) {
@@ -123,7 +133,7 @@ function AdminModule() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/companies/${id}`,
+        `${import.meta.env.VITE_API_URL}/api/companies/${id}`,
         {
           method: "PUT",
           headers: {
@@ -155,13 +165,16 @@ function AdminModule() {
     };
 
     try {
-      const response = await fetch(`http://localhost:5000/api/methods/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedMethod),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/methods/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedMethod),
+        }
+      );
       const data = await response.json();
       fetchMethods();
     } catch (error) {
@@ -172,7 +185,7 @@ function AdminModule() {
   // Function to delete a company
   const deleteCompany = async (id) => {
     try {
-      await fetch(`http://localhost:5000/api/companies/${id}`, {
+      await fetch(`${import.meta.env.VITE_API_URL}/api/api/companies/${id}`, {
         method: "DELETE",
       });
       setCompanies(companies.filter((company) => company._id !== id));
@@ -187,9 +200,12 @@ function AdminModule() {
     setMethods(updatedMethods);
 
     try {
-      const response = await fetch(`http://localhost:5000/api/methods/${id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/methods/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to delete method");
